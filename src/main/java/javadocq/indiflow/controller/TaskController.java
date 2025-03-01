@@ -26,7 +26,7 @@ public class TaskController {
         return ResponseEntity.ok(subTaskList);
     }
 
-    @PostMapping("/projects/task")
+    @PostMapping("/project/task")
     public ResponseEntity<String> PostProject(@Valid @RequestBody Task task) {
         Long saveTaskId = taskService.join(task);
         return ResponseEntity.ok(saveTaskId.toString());
