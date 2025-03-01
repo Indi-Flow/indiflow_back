@@ -24,20 +24,30 @@ public class TaskService {
     }
 
     @Transactional
-    public Task getTask(Long ProjectId, Long TaskId) {
+    public Task getTask(Long ProjectId, Long taskId) {
         Project project = projectRepository.findById(ProjectId);
         if (project == null) {
             throw new IllegalStateException("task not found");
         }
-        return taskRepository.findById(TaskId);
+        Task task = taskRepository.findById(taskId);
+        if (task == null || !task.getProject().equals(project)) {
+            throw new IllegalStateException("Task not found in this project");
+        }
+
+        return task;
     }
 
     @Transactional
-    public List<SubTask> getSubTasks(Long projectId) {
-        Task task = taskRepository.findById(projectId);
+    public List<SubTask> getSubTasks(Long projectId, Long taskId) {
+        Task task = taskRepository.findById(taskId);
         if(task == null) {
             throw  new IllegalStateException("task not found");
         }
+
+        if (!task.getProject().getId().equals(projectId)) {
+            throw new IllegalStateException("Task does not belong to this project");
+        }
+
         return task.getSubTaskList();
     }
     @Transactional

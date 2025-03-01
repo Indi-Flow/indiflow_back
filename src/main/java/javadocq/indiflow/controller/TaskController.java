@@ -22,8 +22,8 @@ public class TaskController {
 
     @GetMapping("/project/{projectId}/{taskId}")
     public ResponseEntity<List<SubTask>> getSubTask(@PathVariable("projectId") Long projectId, @PathVariable("taskId") Long taskId) {
-        Task task = taskService.getTask(projectId, taskId);
-        return ResponseEntity.ok(task.getSubTaskList());
+        List<SubTask> subTaskList = taskService.getSubTasks(projectId, taskId);
+        return ResponseEntity.ok(subTaskList);
     }
 
     @PostMapping("/projects/task")
