@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import javadocq.indiflow.domain.Project;
 import javadocq.indiflow.domain.Task;
+import javadocq.indiflow.domain.User;
 import org.springframework.stereotype.Repository;
 
 @Repository

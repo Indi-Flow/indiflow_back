@@ -29,26 +29,26 @@ public class ProjectController {
         return ResponseEntity.ok(projects);
     }
 
-    @PostMapping("/projects")
-    public ResponseEntity<String> PostProject(@Valid @RequestBody Project project) {
-        Long saveProjectId = projectService.join(project);
+    @PostMapping("/projects/{username}")
+    public ResponseEntity<String> PostProject(@PathVariable String username, @Valid @RequestBody Project project) {
+        Long saveProjectId = projectService.join(username, project);
         return ResponseEntity.ok(saveProjectId.toString());
     }
 
-    @GetMapping("/project/{projectId}")
-    public ResponseEntity<List<Task>> getProject(@PathVariable("projectId") Long projectId) {
-        List<Task> tasks = projectService.getTasks(projectId);
+    @GetMapping("/project/{username}/{projectId}")
+    public ResponseEntity<List<Task>> getProject(@PathVariable("projectId") Long projectId, @PathVariable String username) {
+        List<Task> tasks = projectService.getTasks(username, projectId);
         return ResponseEntity.ok(tasks);
     }
 
-    @GetMapping("/project/{projectId}/memo")
-    public ResponseEntity<List<Memo>> getMemo(@PathVariable("projectId") Long projectId) {
-        List<Memo> memos = projectService.getMemos(projectId);
+    @GetMapping("/project/{username}/{projectId}/memo")
+    public ResponseEntity<List<Memo>> getMemo(@PathVariable("projectId") Long projectId, @PathVariable String username) {
+        List<Memo> memos = projectService.getMemos(username, projectId);
         return ResponseEntity.ok(memos);
     }
 
-    @PostMapping("/project/{projectId}/finish")
-    public void endTask(@PathVariable("projectId") Long projectId) {
-        projectService.deleteProject(projectId);
+    @PostMapping("/project/{username}/{projectId}/finish")
+    public void endProject(@PathVariable("projectId") Long projectId, @PathVariable String username) {
+        projectService.deleteProject(username, projectId);
     }
 }
