@@ -17,11 +17,11 @@ public class UserRepository {
     }
 
     public User findByUsername(String username) {
-        List<User> users = em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class).setParameter("username", username).getResultList();
+        List<User> users = em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
+                .setParameter("username", username).getResultList();
         if (users.isEmpty()) {
             return null;
         }
         return users.getFirst();
     }
-
 }
