@@ -10,6 +10,7 @@ import javadocq.indiflow.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,18 +22,18 @@ public class SubTaskController {
     private final SubTaskService subTaskService;
     private final TaskService taskService;
 
-    @PostMapping("/project/{projectId}/{taskId}/subTask")
-    public ResponseEntity<SubTask> PostSubTask(@PathVariable("taskId") Long taskId,
+    @PostMapping("/subTask/{username}/{projectId}/{taskId}/subTask")
+    public ResponseEntity<Long> PostSubTask(@PathVariable("taskId") Long taskId,
                                                @Valid @RequestBody SubTask subTask) {
 
         SubTask savedSubTask = subTaskService.save(subTask, taskId);
-        return ResponseEntity.ok(savedSubTask);
+        return ResponseEntity.ok(savedSubTask.getId());
     }
 
-    @PostMapping("/project/{projectId}/{taskId}/{subTaskId}/finish")
-    public ResponseEntity<Void> endSubTask(@PathVariable("subTaskId") Long subTaskId) {
+    @DeleteMapping("/subTask/{username}/{projectId}/{taskId}/{subTaskId}/finish_subtask")
+    public ResponseEntity<String> DeleteSubTask(@PathVariable("subTaskId") Long subTaskId) {
 
         subTaskService.delete(subTaskId);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("subTask 완료");
     }
 }

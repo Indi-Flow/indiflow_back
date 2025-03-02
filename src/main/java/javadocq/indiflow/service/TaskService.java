@@ -18,7 +18,9 @@ public class TaskService {
     private final ProjectRepository projectRepository;
 
     @Transactional
-    public Long join(Task task) {
+    public Long join(Long projectId, Task task) {
+        Project project = projectRepository.findById(projectId);
+        task.setProject(project);
         taskRepository.save(task);
         return task.getId();
     }

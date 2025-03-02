@@ -11,8 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -24,17 +22,17 @@ public class UserController {
     private final UserRepository userRepository;
 
     @PostMapping("/user/sign_up")
-    public ResponseEntity<User> signUp(@Valid @RequestBody User user, BindingResult result) {
+    public ResponseEntity<Long> signUp(@Valid @RequestBody User user, BindingResult result) {
         if (result.hasErrors()) {
             throw new IllegalArgumentException("회원가입 실패");
         } else {
             userService.join(user);
-            return ResponseEntity.ok(user);  // JSON 응답 반환
+            return ResponseEntity.ok(user.getId());
         }
     }
 
     @PostMapping("/user/sign_in")
-    public ResponseEntity<Long> signIn(@Valid @RequestBody User user, BindingResult result) {
+    public ResponseEntity<List<Project>> signIn(@Valid @RequestBody User user, BindingResult result) {
         if (result.hasErrors()) {
             throw new IllegalStateException("로그인 실패");
         } else {
@@ -46,7 +44,7 @@ public class UserController {
                 if (!passwordEncoder.matches(user.getPassword(), saveUser.getPassword())) {
                     throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
                 }
-                return ResponseEntity.ok(saveUser.getId());
+                return ResponseEntity.ok(saveUser.getProjects());
             }
         }
     }
