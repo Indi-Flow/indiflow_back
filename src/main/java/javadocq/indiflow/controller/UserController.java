@@ -1,8 +1,6 @@
 package javadocq.indiflow.controller;
 
 import jakarta.validation.Valid;
-import java.util.List;
-import javadocq.indiflow.domain.Project;
 import javadocq.indiflow.domain.User;
 import javadocq.indiflow.repository.UserRepository;
 import javadocq.indiflow.service.UserService;
@@ -11,11 +9,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 
     private final UserService userService;
@@ -32,7 +32,7 @@ public class UserController {
     }
 
     @PostMapping("/user/sign_in")
-    public ResponseEntity<List<Project>> signIn(@Valid @RequestBody User user, BindingResult result) {
+    public ResponseEntity<String> signIn(@Valid @RequestBody User user, BindingResult result) {
         if (result.hasErrors()) {
             throw new IllegalStateException("로그인 실패");
         } else {
@@ -44,7 +44,7 @@ public class UserController {
                 if (!passwordEncoder.matches(user.getPassword(), saveUser.getPassword())) {
                     throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
                 }
-                return ResponseEntity.ok(saveUser.getProjects());
+                return ResponseEntity.ok(saveUser.getUsername());
             }
         }
     }

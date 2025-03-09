@@ -9,11 +9,13 @@ import javadocq.indiflow.DTO.TaskWithSubTasksDTO;
 import javadocq.indiflow.domain.Memo;
 import javadocq.indiflow.domain.Project;
 import javadocq.indiflow.domain.Task;
+import javadocq.indiflow.repository.ProjectRepository;
 import javadocq.indiflow.service.ProjectService;
 import javadocq.indiflow.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,9 +24,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class ProjectController {
     private final ProjectService projectService;
     private final UserService userService;
+    private final ProjectRepository projectRepository;
 
 
     @GetMapping("/projects/{username}")
@@ -35,9 +39,11 @@ public class ProjectController {
     }
 
     @PostMapping("/project/{username}")
-    public ResponseEntity<String> PostProject(@PathVariable String username, @Valid @RequestBody Project project) {
-        Long saveProjectId = projectService.join(username, project);
-        return ResponseEntity.ok(saveProjectId.toString());
+    public ResponseEntity<ProjectDTO> PostProject(@PathVariable String username, @Valid @RequestBody Project project) {
+        Long savedId = projectService.join(username, project);
+        Project savedProject = projectRepository.findById(savedId);
+        ProjectDTO projectDTO = new ProjectDTO(savedProject);
+        return ResponseEntity.ok(projectDTO);
     }
 
     @GetMapping("/project/{username}/{projectId}/tasks_with_subtasks")
