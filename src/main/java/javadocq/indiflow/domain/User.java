@@ -13,11 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 public class User {
 
@@ -37,6 +39,9 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Project> projects = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Pomodoro> pomodoros = new ArrayList<>();
+
     // 명시적인 생성자
     public User(String username, String password, String email) {
         this.username = username;
@@ -51,4 +56,5 @@ public class User {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         this.password = passwordEncoder.encode(this.password);
     }
+
 }
