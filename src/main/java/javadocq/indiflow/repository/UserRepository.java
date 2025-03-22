@@ -22,6 +22,6 @@ public class UserRepository {
         if (users.isEmpty()) {
             return null;
         }
-        return users.getFirst();
+        return users.get(0);
     }
 }
