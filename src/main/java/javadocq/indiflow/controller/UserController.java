@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://indiflow-front.vercel.app/")
 public class UserController {
 
     private final UserService userService;
