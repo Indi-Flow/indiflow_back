@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @RequiredArgsConstructor
-@CrossOrigin(origins = "https://indiflow-front.vercel.app/")
+@CrossOrigin(origins = "http://localhost:3000")
 public class TaskController {
     private final TaskService taskService;
     private final TaskRepository taskRepository;

@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @RequiredArgsConstructor
-@CrossOrigin(origins = "https://indiflow-front.vercel.app/")
+@CrossOrigin(origins = "http://localhost:3000")
 public class ProjectController {
     private final ProjectService projectService;
     private final UserService userService;

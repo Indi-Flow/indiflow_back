@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 @RequiredArgsConstructor
-@CrossOrigin(origins = "https://indiflow-front.vercel.app/")
+@CrossOrigin(origins = "http://localhost:3000")
 public class PomodoroController {
     private final PomodoroService pomodoroService;
     private final UserRepository userRepository;
