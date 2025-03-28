@@ -8,11 +8,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class IndiflowApplication {
 
 	public static void main(String[] args) {
-		Dotenv dotenv = Dotenv.load();
-
-		System.setProperty("DB_URL", dotenv.get("DB_URL"));
-		System.setProperty("DB_USERNAME", dotenv.get("DB_USERNAME"));
-		System.setProperty("DB_PASSWORD", dotenv.get("DB_PASSWORD"));
+		String dbUrl = System.getenv("DB_URL");
+		String dbUser = System.getenv("DB_USERNAME");
+		String dbPassword = System.getenv("DB_PASSWORD");
 
 		SpringApplication.run(IndiflowApplication.class, args);
 	}
